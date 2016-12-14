@@ -1,0 +1,53 @@
+# js
+<source>
+  @type tail
+  path /var/log/nginx/antiscrap_js.log
+  pos_file /var/log/td-agent/antiscrap_js.log.pos
+  tag antiscrap_js.log
+  format /^(?<host>[^ ]*) \- (?<path>[^ ]*)?$/
+</source>
+
+<match antiscrap_js.log>
+  @type mongo
+  host db.mas-mas.it
+  port 10210
+  database antiscrap
+  collection js
+
+  # for capped collection
+  capped
+  capped_size 1024m
+
+  # key name of timestamp
+  time_key time
+
+  # flush
+  flush_interval 10s
+</match>
+
+# png
+<source>
+  @type tail
+  path /var/log/nginx/antiscrap_png.log
+  pos_file /var/log/td-agent/antiscrap_png.log.pos
+  tag antiscrap_png.log
+  format /^(?<host>[^ ]*) \- (?<path>[^ ]*)?$/
+</source>
+
+<match antiscrap_png.log>
+  @type mongo
+  host db.mas-mas.it
+  port 10210
+  database antiscrap
+  collection png
+
+  # for capped collection
+  capped
+  capped_size 1024m
+
+  # key name of timestamp
+  time_key time
+
+  # flush
+  flush_interval 10s
+</match>
